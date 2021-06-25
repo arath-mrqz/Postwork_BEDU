@@ -128,7 +128,73 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 
 #----------- Punto 1 -----------
 # Obten tabla de cocientes pc/pm
+#Obtener los indices de cada valor 
+#HOME
+FTHG.df<-as.data.frame(FTHG.tab)
+cero<-which(conjunto.df$FTHG==0)
+uno<-which(conjunto.df$FTHG==1)
+dos<-which(conjunto.df$FTHG==2)
+tres<-which(conjunto.df$FTHG==3)
+cuatro<-which(conjunto.df$FTHG==4)
+cinco<-which(conjunto.df$FTHG==5)
+seis<-which(conjunto.df$FTHG==6)
+siete<-which(conjunto.df$FTHG==7)
+ocho<-which(conjunto.df$FTHG==8)
+#AWAY
+FTAG.df<-as.data.frame(FTAG.tab)
+ceroA<-which(conjunto.df$FTAG==0)
+unoA<-which(conjunto.df$FTAG==1)
+dosA<-which(conjunto.df$FTAG==2)
+tresA<-which(conjunto.df$FTAG==3)
+cuatroA<-which(conjunto.df$FTAG==4)
+cincoA<-which(conjunto.df$FTAG==5)
+seisA<-which(conjunto.df$FTAG==6)
 
+#Añade las probabilidads de cada valor
+# de HOME en su respectivo indice
+
+inicio<-seq(1,63,1)
+conjunto.df$FreqH<-c(inicio)
+
+conjunto.df$FreqH[cero]<-FTHG.df[1,2]
+conjunto.df$FreqH[uno]<-FTHG.df[2,2]
+conjunto.df$FreqH[dos]<-FTHG.df[3,2]
+conjunto.df$FreqH[tres]<-FTHG.df[4,2]
+conjunto.df$FreqH[cuatro]<-FTHG.df[5,2]
+conjunto.df$FreqH[cinco]<-FTHG.df[6,2]
+conjunto.df$FreqH[seis]<-FTHG.df[7,2]
+conjunto.df$FreqH[siete]<-FTHG.df[8,2]
+conjunto.df$FreqH[ocho]<-FTHG.df[9,2]
+
+#Añade las probabilidads de cada valor
+# de AWAY en su respectivo indice
+conjunto.df
+
+conjunto.df$FreqA<-c(inicio)
+
+conjunto.df$FreqA[ceroA]<-FTAG.df[1,2]
+conjunto.df$FreqA[unoA]<-FTAG.df[2,2]
+conjunto.df$FreqA[dosA]<-FTAG.df[3,2]
+conjunto.df$FreqA[tresA]<-FTAG.df[4,2]
+conjunto.df$FreqA[cuatroA]<-FTAG.df[5,2]
+conjunto.df$FreqA[cincoA]<-FTAG.df[6,2]
+conjunto.df$FreqA[seisA]<-FTAG.df[7,2]
+
+#Obtiene los cocientes
+a<-conjunto.df$Frecuencia/(conjunto.df$FreqH*conjunto.df$FreqA)
+a
+
+conjunto.df$Cocientes<-a
+conjunto.df <- rename(conjunto.df, ProbAcum = Frecuencia, ProbH = FreqH, ProbA = FreqA) 
+
+str(conjunto.df)
+summary(conjunto.df)
+
+hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
+     main = "Tabla de Cocientes",
+     xlab = "Cociente",
+     ylab = "Frecuencia")
+median(conjunto.df$Cocientes)
 
 #----------- Punto 2 -----------
 # Aplicar el procedimiento de boostrap
