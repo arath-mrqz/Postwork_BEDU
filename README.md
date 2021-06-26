@@ -102,7 +102,7 @@ df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 data = union_all(df_1718,df_1819)
 data = union_all(data,df_1920)
 ```
-<img src="imagenes/001.PNG" align="right" height="250" width="150">
+<img src="imagenes/001.PNG" align="center" height="200" width="500">
 
 
 # POSTWORK 3
@@ -134,14 +134,14 @@ data = union_all(data,df_1920)
 barplot(FTHG.tab,main = "Equipo de casa", col = c("blue","yellow","orange","green"))
 ```
 
-<img src="imagenes/goles_FTHG.jpeg" height="250" width="400">
+<img src="imagenes/goles_FTHG.jpeg" align="center" height="250" width="400">
 
  5. Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
 ```R
 barplot(FTAG.tab,main = "Equipo visitante", col = c("purple","orange","blue","pink"))
 ```
 
-<img src="imagenes/goles_FTAG.jpeg"  height="250" width="400">
+<img src="imagenes/goles_FTAG.jpeg" align="center"  height="250" width="400">
 
  6. Un HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 
@@ -154,7 +154,7 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
   geom_text(aes(label=round(Frecuencia,3)), size=3)
 ```
 
-<img src="imagenes/Heatmap.png"  height="250" width="500">
+<img src="imagenes/Heatmap.png"  align="center" height="250" width="500">
 
 
 # POSTWORK 4
