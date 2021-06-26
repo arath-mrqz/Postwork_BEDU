@@ -186,11 +186,7 @@ for (j in 1:dim(conjunto.tab)[2]) {
   }
 }
 
-hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
-     main = "Tabla de Cocientes",
-     xlab = "Cociente",
-     ylab = "Frecuencia")
-median(conjunto.df$Cocientes)
+#CODIGO DE SOFIA
 ```
 <img src="imagenes/TablaCocientes.png" height="250" width="500">
 
