@@ -198,3 +198,14 @@ median(conjunto.df$Cocientes)
 
 #----------- Punto 2 -----------
 # Aplicar el procedimiento de boostrap
+
+# Se guarda en una Matriz, generando un remuestreo con reemplazo de muestras
+bootstrap = replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
+
+# la matriz arroja 63 columnas (el total de muestras original) 
+# que hacen alución a submuestras. 
+dim(bootstrap)
+#Ahora ya podemos aplicar funciones a cada una de estas submuestras.
+
+
+
