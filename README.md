@@ -239,7 +239,7 @@ ggplotly(gdf4)
 
 # CONCLUSIÓN
 
- Con base en el resultado la prueba t-student con hipótesis de dos colas se obtiene:
+ Con base en el resultado de la prueba t-student con una hipótesis de dos colas se obtiene un p-value < α:
 ```R
   p-value < 2.2e-16 < α
 ```
