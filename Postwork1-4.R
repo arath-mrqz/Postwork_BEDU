@@ -8,6 +8,7 @@
 library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
+library(plotly)
 
 ######################## 
 # Postwork 1
@@ -116,11 +117,11 @@ barplot(FTAG.tab,main = "Equipo visitante", col = c("purple","orange","blue","pi
 
 #Un HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 conjunto.df <- as.data.frame(conjunto.tab)
-colnames(conjunto.df) <- c("FTHG","FTAG","Frecuencia")
+colnames(conjunto.df) <- c("FTHG","FTAG","ProbAcum")
 
-ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
+ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=ProbAcum)) +
   geom_tile() + scale_fill_distiller(palette="GnBu",trans = 'reverse',direction=-1)+
-  geom_text(aes(label=round(Frecuencia,3)), size=3)
+  geom_text(aes(label=round(ProbAcum,3)), size=3)
 
 
 ######################## 
@@ -128,46 +129,48 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 ########################
 
 #----------- Punto 1 -----------
-# Obten tabla de cocientes pc/pm
+# Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
 
-conjunto.df <- cbind.data.frame(conjunto.tab, matrix(0,dim(conjunto.df)[1], dim(conjunto.df)[2] ) )
-colnames(conjunto.df) <- c("FTHG","FTAG","ProbAcum", "ProbH", "ProbA", "Cocientes")
+FTHG.df <- as.data.frame(FTHG.tab)
+FTAG.df <- as.data.frame(FTAG.tab)
 
-# Obten tabla de cocientes Pcoc = pc/pm
-Pcoc = matrix(0, dim(conjunto.tab)[1],dim(conjunto.tab)[2])
-for (j in 1:dim(conjunto.tab)[2]) {
-  for (i in 1:dim(conjunto.tab)[1]) {
-    
-    Pcoc[i,j] <- conjunto.tab[i,j]/as.vector(FTHG.tab[i]*FTAG.tab[j])
-    # print(i+(9*(j-1)))
-    conjunto.df[(i+(9*(j-1))),4] = FTHG.tab[i]
-    conjunto.df[(i+(9*(j-1))),5] = FTAG.tab[j]
-    conjunto.df[(i+(9*(j-1))),6] = Pcoc[i,j]
-    
-  }
-}
+conjunto.df <- cbind(conjunto.df, rep(FTHG.df$Freq,nrow(FTAG.df)),rep(FTAG.df$Freq, each=nrow(FTHG.df)))
+colnames(conjunto.df) <- c("FTHG","FTAG", "ProbAcum", "ProbH","ProbA")
+conjunto.df <- mutate(as.data.frame(conjunto.df), Cocientes=ProbAcum/(ProbH*ProbA))
 
-str(conjunto.df)
-summary(conjunto.df)
+#Gráfico de barras para las probabilidades del equipo de casa.
+barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
+        col = c(brewer.pal(8, "Dark2")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
 
+#Gráfico de barras para las probabilidades del equipo visitante.
+barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
+        col = c(brewer.pal(5, "Set1")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
+
+# Gráfico de barras de cocientes
 hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
      main = "Tabla de Cocientes",
      xlab = "Cociente",
-     ylab = "Frecuencia")
+     ylab = "Frecuencia",
+     col = c(brewer.pal(5, "YlOrRd")))
 median(conjunto.df$Cocientes)
-
-
 
 #----------- Punto 2 -----------
 # Aplicar el procedimiento de boostrap
+set.seed(150)
+bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
+bootstrap <- colMeans(bootstrap)
 
-# Se guarda en una Matriz, generando un remuestreo con reemplazo de muestras
-bootstrap = replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
+gdf4<-ggplot() + 
+  geom_histogram(aes(bootstrap), bins = 50, fill=rainbow(50)) + 
+  geom_vline(aes(xintercept = mean(bootstrap)), color="deepskyblue3") +
+  ggtitle('Histograma de la distribución \n de las medias muestrales.')
+ggplotly(gdf4)
 
-# la matriz arroja 63 columnas (el total de muestras original) 
-# que hacen alución a submuestras. 
-dim(bootstrap)
-#Ahora ya podemos aplicar funciones a cada una de estas submuestras.
-
+# Prueba estadística de independencia de variables aleatorias X e Y
+t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
 
 
