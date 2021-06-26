@@ -188,7 +188,7 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
  colnames(conjunto.df) <- c("FTHG","FTAG", "ProbAcum", "ProbH","ProbA")
  conjunto.df <- mutate(as.data.frame(conjunto.df), Cocientes=ProbAcum/(ProbH*ProbA))
 
-#CODIGO DE SOFIA
+
 ```
 2. Gráfico de barras para el cociente de las probabilidades conjuntas entre el producto de las probabilidades marginales
 ```R
