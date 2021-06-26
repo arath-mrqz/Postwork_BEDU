@@ -196,14 +196,22 @@ median(conjunto.df$Cocientes)
 
 
 ```R
-medias <- c()
-set.seed(1500)
-for(i in 1:10000){
-  medias[i] = mean(sample(conjunto.df$Cocientes, length(conjunto.df$Cocientes), replace = TRUE))
-}
+bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
 gdf4<-ggplot() + 
-  geom_histogram(aes(medias), bins = 50, fill=rainbow(50)) + 
-  geom_vline(aes(xintercept = mean(medias)), color="deepskyblue3") +
+  geom_histogram(aes(bootstrap), bins = 50, fill=rainbow(50)) + 
+  geom_vline(aes(xintercept = mean(bootstrap)), color="deepskyblue3") +
   ggtitle('Histograma de la distribución \n de las medias muestrales.')
 ggplotly(gdf4)
 ```
+
+<img src="imagenes/histdist.png" height="350" width="600">
+
+
+# CONCLUSIÓN
+
+ Con esta prueba de hipótesis de dos colas se obtiene:
+```R
+  p-value < 2.2e-16 < 0.05 = alpha
+```
+ por lo que se rechaza la hipótesis nula, es decir, se rechaza que la media de la distribución sea igual a 1.
+ Por lo tanto, ya que la media de esta distribución estadísticamente no es 1, podemos rechazar la hipótesis de que la variable X y Y sean independientes.
