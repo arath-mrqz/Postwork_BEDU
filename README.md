@@ -206,10 +206,10 @@ median(conjunto.df$Cocientes)
 3. Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras
 ```R
 bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
-medias<-apply(bootstrap, 2, mean)
+bootstrap <- colMeans(bootstrap)
 gdf4<-ggplot() + 
-  geom_histogram(aes(medias), bins = 50, fill=rainbow(50)) + 
-  geom_vline(aes(xintercept = mean(medias)), color="deepskyblue3") +
+  geom_histogram(aes(bootstrap), bins = 50, fill=rainbow(50)) + 
+  geom_vline(aes(xintercept = mean(bootstrap)), color="deepskyblue3") +
   ggtitle('Histograma de la distribución \n de las medias muestrales.')
 ggplotly(gdf4)
 ```
