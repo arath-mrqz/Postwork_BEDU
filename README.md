@@ -1,4 +1,4 @@
-# POSTWORK 1 
+# POSTWORK 1 Sesión 1.
 
 # Objetivo
 
@@ -195,19 +195,15 @@ median(conjunto.df$Cocientes)
 <img src="imagenes/TablaCocientes.png" height="250" width="500">
 
 
- 3. Graficar Histograma
-```R 
+```R
 medias <- c()
+set.seed(1500)
 for(i in 1:10000){
-  set.seed(2*i)
   medias[i] = mean(sample(conjunto.df$Cocientes, length(conjunto.df$Cocientes), replace = TRUE))
-  
 }
 gdf4<-ggplot() + 
   geom_histogram(aes(medias), bins = 50, fill=rainbow(50)) + 
   geom_vline(aes(xintercept = mean(medias)), color="deepskyblue3") +
-  ggtitle('Histograma de la distribución de las medias muestrales.')
+  ggtitle('Histograma de la distribución \n de las medias muestrales.')
 ggplotly(gdf4)
 ```
-
-<img src="imagenes/histdist.png" height="350" width="600">
