@@ -196,6 +196,27 @@ hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
      ylab = "Frecuencia")
 median(conjunto.df$Cocientes)
 
+##### Segunda propuesta de cocientes
+#----------- Punto 1 -----------
+prob.df <- as.data.frame(conjunto.tab)
+prob.df <- cbind.data.frame(prob.df, matrix(0,dim(conjunto.df)[1], dim(conjunto.df)[2] ) )
+colnames(prob.df) <- c("FTHG","FTAG","probAcum", "probA", "probB", "Cociente")
+
+# Obten tabla de cocientes Pcoc = pc/pm
+Pcoc = matrix(0, dim(conjunto.tab)[1],dim(conjunto.tab)[2])
+for (j in 1:dim(conjunto.tab)[2]) {
+  for (i in 1:dim(conjunto.tab)[1]) {
+    
+    Pcoc[i,j] <- conjunto.tab[i,j]/as.vector(FTHG.tab[i]*FTAG.tab[j])
+    # print(i+(9*(j-1)))
+    prob.df[(i+(9*(j-1))),4] = FTHG.tab[i]
+    prob.df[(i+(9*(j-1))),5] = FTAG.tab[j]
+    prob.df[(i+(9*(j-1))),6] = Pcoc[i,j]
+    
+  }
+}
+
+
 #----------- Punto 2 -----------
 # Aplicar el procedimiento de boostrap
 
