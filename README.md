@@ -2,7 +2,7 @@
 
 # Objetivo
 
- -Sacar Frecuencias y sus probabilidades Marginales
+ - Sacar Frecuencias y sus probabilidades Marginales
 
 # Desarrollo
 
