@@ -115,6 +115,18 @@ barplot(FTHG.tab,main = "Equipo de casa", col = c("blue","yellow","orange","gree
 #Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
 barplot(FTAG.tab,main = "Equipo visitante", col = c("purple","orange","blue","pink"))
 
+#Gráfico de barras para las probabilidades del equipo de casa.
+barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
+        col = c(brewer.pal(8, "Dark2")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
+
+#Gráfico de barras para las probabilidades del equipo visitante.
+barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
+        col = c(brewer.pal(5, "Set1")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
+
 #Un HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 conjunto.df <- as.data.frame(conjunto.tab)
 colnames(conjunto.df) <- c("FTHG","FTAG","ProbAcum")
@@ -138,17 +150,6 @@ conjunto.df <- cbind(conjunto.df, rep(FTHG.df$Freq,nrow(FTAG.df)),rep(FTAG.df$Fr
 colnames(conjunto.df) <- c("FTHG","FTAG", "ProbAcum", "ProbH","ProbA")
 conjunto.df <- mutate(as.data.frame(conjunto.df), Cocientes=ProbAcum/(ProbH*ProbA))
 
-#Gráfico de barras para las probabilidades del equipo de casa.
-barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
-        col = c(brewer.pal(8, "Dark2")),
-        xlab = "Número de goles",
-        ylab = "Frecuencia")
-
-#Gráfico de barras para las probabilidades del equipo visitante.
-barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
-        col = c(brewer.pal(5, "Set1")),
-        xlab = "Número de goles",
-        ylab = "Frecuencia")
 
 # Gráfico de barras de cocientes
 hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
