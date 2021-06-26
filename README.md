@@ -102,7 +102,7 @@ df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 data = union_all(df_1718,df_1819)
 data = union_all(data,df_1920)
 ```
-<img src="imagenes/001.PNG" align="center" height="200" width="500">
+<img src="imagenes/001.PNG" style="display: block;margin-left: auto;margin-right: auto;" height="200" width="500">
 
 
 # POSTWORK 3
