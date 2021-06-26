@@ -2,52 +2,52 @@
 
 # Objetivo
 
- - Sacar Frecuencias y sus probabilidades Marginales
+ - Obtener Frecuencias y sus probabilidades Marginales
 
 # Desarrollo
 
- 1. Aplicamos las librerias que vamos a ocupar en estos postworks
+ 1. Carga de los paquetes o bibliotecas que se emplearan a lo largo de los postworks
 
 ```R
 library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
-library(boot)
+library(plotly)
 ```
 
- 2. Ajustamos nuestro espacio de trabajo con
+ 2. Establecimiento del espacio de trabajo en el directorio del archivo fuente con:
 
 ```R
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 ```
 
- 3. Cargamos los datos
+ 3. Carga de datos
 
  ```R
 df_1920 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
 ```
 
- 4. Extraemos las columnas que contienen:
+ 4. Extracción de las columnas que contienen:
     - Número de goles anotados por los equipos que jugaron en casa (FTHG, columna 6) 
     - Número de goles anotados por los equipos que jugaron como visitante (FTAG, columna 7)
  ```R
 df_1920 <- df_1920[,c(6,7)]
 ```
 
-  5. Consultamos la función table
+  5. Consulta de la función table
 
 ```R
 ?table
 ```
  
- 6. Calculamos probabilidades marginales
+ 6. Cálculo de las probabilidades marginales
 
 ```R
 (FTHG_pm = table(df_1920$FTHG)/dim(df_1920)[1]) # pm de goles en casa
 (FTAG_pm = table(df_1920$FTAG)/dim(df_1920)[1]) # pm de goles como visitante
 ```
 
- 7. Calculamos probabilidades conjuntas
+ 7. Cálculo de la probabilidad conjunta
 
 ```R
 (FTHG_FTAG_pc <- table(df_1920$FTHG, df_1920$FTAG)/dim(df_1920)[1]) 
@@ -102,8 +102,9 @@ df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 data = union_all(df_1718,df_1819)
 data = union_all(data,df_1920)
 ```
+<p align="center">
 <img src="imagenes/001.PNG" align="center" height="200" width="500">
-
+</p>
 
 # POSTWORK 3
 
@@ -115,7 +116,7 @@ data = union_all(data,df_1920)
 
 # Desarrollo
 
- 1. Cálculo de probabilidades marginale para equipo local
+ 1. Cálculo de probabilidades marginales para equipo local
  ```R
 (FTHG.tab <- table(data$FTHG)/dim(data)[1])
 ```
@@ -129,21 +130,31 @@ data = union_all(data,df_1920)
 ```R
 (conjunto.tab <- table(data$FTHG, data$FTAG)/dim(data)[1])
 ```
- 4. Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo de casa.
+ 4. Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo de casa.
+  
 ```R
-barplot(FTHG.tab,main = "Equipo de casa", col = c("blue","yellow","orange","green"))
+barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
+        col = c(brewer.pal(8, "Dark2")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
 ```
-
+<p align="center">
 <img src="imagenes/goles_FTHG.jpeg" align="center" height="250" width="400">
+</p>
 
- 5. Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
+ 5. Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
 ```R
-barplot(FTAG.tab,main = "Equipo visitante", col = c("purple","orange","blue","pink"))
+barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
+        col = c(brewer.pal(5, "Set1")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
 ```
 
+<p align="center">
 <img src="imagenes/goles_FTAG.jpeg" align="center"  height="250" width="400">
-
- 6. Un HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
+</p>
+ 
+ 6. HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 
 ```R
 conjunto.df <- as.data.frame(conjunto.tab)
@@ -153,9 +164,9 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
   geom_tile() + scale_fill_distiller(palette="GnBu",trans = 'reverse',direction=-1)+
   geom_text(aes(label=round(Frecuencia,3)), size=3)
 ```
-
+<p align="center">
 <img src="imagenes/Heatmap.png"  align="center" height="250" width="500">
-
+</p>
 
 # POSTWORK 4
 
@@ -164,33 +175,31 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 - Investigar la dependencia o independecia de las variables aleatorias X y Y, el número de goles anotados por el equipo de casa y el número de goles anotados por el equipo visitante.
 
 # Desarrollo
- 1. Obten tabla de cocientes pc/pm
-
+1. Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
 ```R
-conjunto.df <- cbind.data.frame(conjunto.tab, matrix(0,dim(conjunto.df)[1], dim(conjunto.df)[2] ) )
-colnames(conjunto.df) <- c("FTHG","FTAG","ProbAcum", "ProbH", "ProbA", "Cocientes")
-```
+ FTHG.df <- as.data.frame(FTHG.tab)
+ FTAG.df <- as.data.frame(FTAG.tab)
 
- 2. Obten tabla de cocientes Pcoc = pc/pm
-```R
-Pcoc = matrix(0, dim(conjunto.tab)[1],dim(conjunto.tab)[2])
-for (j in 1:dim(conjunto.tab)[2]) {
-  for (i in 1:dim(conjunto.tab)[1]) {
-    
-    Pcoc[i,j] <- conjunto.tab[i,j]/as.vector(FTHG.tab[i]*FTAG.tab[j])
-    # print(i+(9*(j-1)))
-    conjunto.df[(i+(9*(j-1))),4] = FTHG.tab[i]
-    conjunto.df[(i+(9*(j-1))),5] = FTAG.tab[j]
-    conjunto.df[(i+(9*(j-1))),6] = Pcoc[i,j]
-    
-  }
-}
+ conjunto.df <- cbind(conjunto.df, rep(FTHG.df$Freq,nrow(FTAG.df)),rep(FTAG.df$Freq, each=nrow(FTHG.df)))
+ colnames(conjunto.df) <- c("FTHG","FTAG", "ProbAcum", "ProbH","ProbA")
+ conjunto.df <- mutate(as.data.frame(conjunto.df), Cocientes=ProbAcum/(ProbH*ProbA))
 
 #CODIGO DE SOFIA
 ```
+2. Gráfico de barras para el cociente de las probabilidades conjuntas entre el producto de las probabilidades marginales
+ ```R
+ hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
+     main = "Tabla de Cocientes",
+     xlab = "Cociente",
+     ylab = "Frecuencia",
+     col = c(brewer.pal(5, "YlOrRd")))
+median(conjunto.df$Cocientes)
+ ```
+<p align="center">
 <img src="imagenes/TablaCocientes.png" height="250" width="500">
+</p>
 
-
+3. Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras
 ```R
 install.packages("plotly")
 library(plotly)
@@ -203,15 +212,36 @@ gdf4<-ggplot() +
   ggtitle('Histograma de la distribución \n de las medias muestrales.')
 ggplotly(gdf4)
 ```
-
+<p align="center">
 <img src="imagenes/histdist.png" height="350" width="600">
+</p>
 
+4. Determinación de ndependencia de las variabeles X e Y
+
+    Para determinar la independencia de las variables X e Y se hace uso de prueba de t-student, que considera lo siguiente:
+     - Hipótesis nula H0: μ = 1 
+     - Hipótesis alternativa H1: μ!=0
+     - Hipotesis de dos colas
+     - Nivel de significancia de α=0.95 
+
+```R
+ t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
+ 
+ data:  bootstrap
+ t = -115.39, df = 9999, p-value < 2.2e-16
+ alternative hypothesis: true mean is not equal to 1
+ 95 percent confidence interval:
+  0.8571245 0.8618975
+ sample estimates:
+ mean of x 
+  0.859511 
+```
 
 # CONCLUSIÓN
 
- Con esta prueba de hipótesis de dos colas se obtiene:
+ Con base en el resultado la prueba t-student con hipótesis de dos colas se obtiene:
 ```R
-  p-value < 2.2e-16 < 0.05 = α
+  p-value < 2.2e-16 < α
 ```
- por lo que se rechaza la hipótesis nula, es decir, se rechaza que la media de la distribución sea igual a 1.
- Por lo tanto, ya que la media de esta distribución estadísticamente no es 1, podemos rechazar la hipótesis de que la variable X y Y sean independientes.
+por lo tanto, la hipótesis nula se rechaza y señala que la media de la distribución es diferente de 1. Entonces, esto indica
+que las variables X e Y son variables dependientes.
