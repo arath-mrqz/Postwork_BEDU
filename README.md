@@ -1,4 +1,4 @@
-# POSTWORK 1 Sesión 1.
+# POSTWORK 1 
 
 # Objetivo
 
@@ -210,4 +210,4 @@ gdf4<-ggplot() +
 ggplotly(gdf4)
 ```
 
-<img src="imagenes/histdist.png" height="250" width="500">
+<img src="imagenes/histdist.png" height="350" width="600">
