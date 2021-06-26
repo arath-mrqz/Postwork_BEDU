@@ -241,9 +241,7 @@ ggplotly(gdf4)
 # CONCLUSIÓN
 
  Con base en el resultado de la prueba t-student con una hipótesis de dos colas se obtiene un p-value < α:
-```R
-  t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
-  
+```R 
   p-value < 2.2e-16 < 0.05 = α
 ```
 por lo tanto, la hipótesis nula se rechaza y señala que la media de la distribución es diferente de 1. Entonces, esto indica
