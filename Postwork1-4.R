@@ -81,7 +81,7 @@ summary(df_1920)
 df_1718 = select(df_1718,Date:FTR)
 df_1819 = select(df_1819,Date:FTR)
 df_1920 = select(df_1920,Date:FTR)
-df_1920 = df_1920[,-2] # Elimina columna "Time" de los datos de la temporad 2019/2020
+df_1920 = df_1920[,-2] # Elimina columna "Time" de los datos de la temporada 2019/2020
 
 #----------- Punto 4 -----------
 # Reparación de fechas en los dataframes
@@ -99,10 +99,10 @@ data = union_all(data,df_1920)
 ########################
 
 #----------- Punto 1 -----------
-# Cálculo de probabilidades marginale para equipo local
+# Cálculo de probabilidades marginales para equipo local
 (FTHG.tab <- table(data$FTHG)/dim(data)[1])
 
-# Cálculo de probabilidades marginale para equipo visitante
+# Cálculo de probabilidades marginales para equipo visitante
 (FTAG.tab <- table(data$FTAG)/dim(data)[1] )
 
 # Cálculo de probabilidad conjunta para equipo local y visitante
