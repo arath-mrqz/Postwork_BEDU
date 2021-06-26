@@ -192,6 +192,9 @@ for (j in 1:dim(conjunto.tab)[2]) {
 
 
 ```R
+install.packages("plotly")
+library(plotly)
+
 bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
 medias<-apply(bootstrap, 2, mean)
 gdf4<-ggplot() + 
