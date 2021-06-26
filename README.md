@@ -102,7 +102,7 @@ df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 data = union_all(df_1718,df_1819)
 data = union_all(data,df_1920)
 ```
-<img src="imagenes/001.PNG" style="display: block;margin-left: auto;margin-right: auto;" height="200" width="500">
+<img src="imagenes/001.PNG" align="center" height="200" width="500">
 
 
 # POSTWORK 3
@@ -194,9 +194,7 @@ median(conjunto.df$Cocientes)
 ```
 <img src="imagenes/TablaCocientes.png" height="250" width="500">
 
- 3. Graficar un histograma
-
-```R
+ocupe lo de la pagina pero no se su subirlo a lo del readme: 
 medias <- c()
 for(i in 1:10000){
   set.seed(2*i)
@@ -208,6 +206,3 @@ gdf4<-ggplot() +
   geom_vline(aes(xintercept = mean(medias)), color="deepskyblue3") +
   ggtitle('Histograma de la distribución de las medias muestrales.')
 ggplotly(gdf4)
-```
-
-<img src="imagenes/histdist.png" height="250" width="500">
