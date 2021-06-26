@@ -1,4 +1,4 @@
-# POSTWORK 1 Sesión 1.
+# POSTWORK 1.
 
 # Objetivo
 
@@ -13,6 +13,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
 library(boot)
+library(plotly)
 ```
 
  2. Ajustamos nuestro espacio de trabajo con
@@ -131,17 +132,24 @@ data = union_all(data,df_1920)
 ```
  4. Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo de casa.
 ```R
-barplot(FTHG.tab,main = "Equipo de casa", col = c("blue","yellow","orange","green"))
+barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
+        col = c(brewer.pal(8, "Dark2")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
+
 ```
 
-<img src="imagenes/goles_FTHG.jpeg" align="center" height="250" width="400">
+<img src="imagenes/goles_FTHG.jpeg" align="center" height="470" width="400">
 
  5. Un gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
 ```R
-barplot(FTAG.tab,main = "Equipo visitante", col = c("purple","orange","blue","pink"))
+barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
+        col = c(brewer.pal(5, "Set1")),
+        xlab = "Número de goles",
+        ylab = "Frecuencia")
 ```
 
-<img src="imagenes/goles_FTAG.jpeg" align="center"  height="250" width="400">
+<img src="imagenes/goles_FTAG.jpeg" align="center"  height="470" width="400">
 
  6. Un HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 
@@ -154,7 +162,7 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
   geom_text(aes(label=round(Frecuencia,3)), size=3)
 ```
 
-<img src="imagenes/Heatmap.png"  align="center" height="250" width="500">
+<img src="imagenes/Heatmap.png"  align="center" height="470" width="500">
 
 
 # POSTWORK 4
@@ -164,37 +172,31 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 - Investigar la dependencia o independecia de las variables aleatorias X y Y, el número de goles anotados por el equipo de casa y el número de goles anotados por el equipo visitante.
 
 # Desarrollo
- 1. Obten tabla de cocientes pc/pm
-
+ 1. Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
 ```R
-conjunto.df <- cbind.data.frame(conjunto.tab, matrix(0,dim(conjunto.df)[1], dim(conjunto.df)[2] ) )
-colnames(conjunto.df) <- c("FTHG","FTAG","ProbAcum", "ProbH", "ProbA", "Cocientes")
+FTHG.df <- as.data.frame(FTHG.tab)
+FTAG.df <- as.data.frame(FTAG.tab)
+
+conjunto.df <- cbind(conjunto.df, rep(FTHG.df$Freq,nrow(FTAG.df)),rep(FTAG.df$Freq, each=nrow(FTHG.df)))
+colnames(conjunto.df) <- c("FTHG","FTAG", "ProbAcum", "ProbH","ProbA")
+conjunto.df <- mutate(as.data.frame(conjunto.df), Cocientes=ProbAcum/(ProbH*ProbA))
 ```
 
- 2. Obten tabla de cocientes Pcoc = pc/pm
+ 2. Gráfico de barras de cocientes
 ```R
-Pcoc = matrix(0, dim(conjunto.tab)[1],dim(conjunto.tab)[2])
-for (j in 1:dim(conjunto.tab)[2]) {
-  for (i in 1:dim(conjunto.tab)[1]) {
-    
-    Pcoc[i,j] <- conjunto.tab[i,j]/as.vector(FTHG.tab[i]*FTAG.tab[j])
-    # print(i+(9*(j-1)))
-    conjunto.df[(i+(9*(j-1))),4] = FTHG.tab[i]
-    conjunto.df[(i+(9*(j-1))),5] = FTAG.tab[j]
-    conjunto.df[(i+(9*(j-1))),6] = Pcoc[i,j]
-    
-  }
-}
+hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
+     main = "Tabla de Cocientes",
+     xlab = "Cociente",
+     ylab = "Frecuencia",
+     col = c(brewer.pal(5, "YlOrRd")))
+median(conjunto.df$Cocientes)
 
 #CODIGO DE SOFIA
 ```
-<img src="imagenes/TablaCocientes.png" height="250" width="500">
+<img src="imagenes/TablaCocientes.png" height="470" width="400">
 
 
 ```R
-install.packages("plotly")
-library(plotly)
-
 bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
 medias<-apply(bootstrap, 2, mean)
 gdf4<-ggplot() + 
@@ -204,13 +206,15 @@ gdf4<-ggplot() +
 ggplotly(gdf4)
 ```
 
-<img src="imagenes/histdist.png" height="350" width="600">
+<img src="imagenes/histdist.png" height="470" width="500">
 
 
 # CONCLUSIÓN
 
  Con esta prueba de hipótesis de dos colas se obtiene:
 ```R
+  t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
+  
   p-value < 2.2e-16 < 0.05 = α
 ```
  por lo que se rechaza la hipótesis nula, es decir, se rechaza que la media de la distribución sea igual a 1.
