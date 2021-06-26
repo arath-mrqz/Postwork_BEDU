@@ -211,7 +211,7 @@ ggplotly(gdf4)
 
  Con esta prueba de hipótesis de dos colas se obtiene:
 ```R
-  p-value < 2.2e-16 < 0.05 = alpha
+  p-value < 2.2e-16 < 0.05 = α
 ```
  por lo que se rechaza la hipótesis nula, es decir, se rechaza que la media de la distribución sea igual a 1.
  Por lo tanto, ya que la media de esta distribución estadísticamente no es 1, podemos rechazar la hipótesis de que la variable X y Y sean independientes.
