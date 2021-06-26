@@ -193,3 +193,21 @@ hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
 median(conjunto.df$Cocientes)
 ```
 <img src="imagenes/TablaCocientes.png" height="250" width="500">
+
+ 3. Graficar un histograma
+
+```R
+medias <- c()
+for(i in 1:10000){
+  set.seed(2*i)
+  medias[i] = mean(sample(conjunto.df$Cocientes, length(conjunto.df$Cocientes), replace = TRUE))
+  
+}
+gdf4<-ggplot() + 
+  geom_histogram(aes(medias), bins = 50, fill=rainbow(50)) + 
+  geom_vline(aes(xintercept = mean(medias)), color="deepskyblue3") +
+  ggtitle('Histograma de la distribución de las medias muestrales.')
+ggplotly(gdf4)
+```
+
+<img src="imagenes/histdist.png" height="250" width="500">
