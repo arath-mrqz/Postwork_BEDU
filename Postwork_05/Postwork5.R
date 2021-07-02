@@ -27,6 +27,5 @@ SmallData = union_all(df_1718,df_1819)
 SmallData = union_all(data,df_1920)
 
 SmallData = SmallData[,c(1,2,4,3,5)]
-SmallData = rename(SmallData)
 
 colnames(SmallData) = c('date','home.team','home.score','away.team','away.score')
