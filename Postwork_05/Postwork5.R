@@ -23,9 +23,28 @@ df_1718 = mutate(df_1718,Date = as.Date(Date,"%d/%m/%y"))
 df_1819 = mutate(df_1819,Date = as.Date(Date,"%d/%m/%Y"))
 df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 
-SmallData = union_all(df_1718,df_1819)
-SmallData = union_all(data,df_1920)
+#-----------Unión de data frames----------
+SmallData <- rbind(df_1718,df_1819,df_1920)
+colnames(SmallData) = c('date','home.team','away.team','home.score','away.score')
 
-SmallData = SmallData[,c(1,2,4,3,5)]
+#----------Guardar CVS en el directorio--------
+setwd()
+write.csv(SmallData, "soccer.csv", row.names = FALSE)
 
-colnames(SmallData) = c('date','home.team','home.score','away.team','away.score')
+#----Función fbRank.dataframes, variables anotaciones y equipos
+
+listasoccer <- create.fbRanks.dataframes(scores.file="soccer.csv")
+anotaciones <-listasoccer$scores
+equipos <- listasoccer$teams
+  
+#------Vector de fechas (fecha) que no se repitan y variable n con el número de fechas diferentes
+fecha <- sort(unique(anotaciones$date))
+n <- length(fecha)
+
+#----------Ranking de equipos de la primera a la penúltima fecha----------
+ranking <- rank.teams(scores=anotaciones, teams=equipos,
+                      min.date = fecha[1], max.date=fecha[n-1],
+                      date.format = '%d/%m/%Y')
+
+#----Función predict: El equipo de casa gana, el equipo visitante gana o probabilidad de empate
+predict(ranking, date = fecha[n])
