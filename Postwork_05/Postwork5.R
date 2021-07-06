@@ -7,7 +7,7 @@
 #Puedes colocar como argumento row.names = FALSE en write.csv.
 
 library(dplyr)
-
+library(fbRanks)
 df_1718 = read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
 df_1819 = read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
 df_1920 = read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
