@@ -28,7 +28,7 @@ SmallData <- rbind(df_1718,df_1819,df_1920)
 colnames(SmallData) = c('date','home.team','away.team','home.score','away.score')
 
 #----------Guardar CVS en el directorio--------
-setwd()
+setwd("/home/arath/Documents/CURSOS/DataScience/")
 write.csv(SmallData, "soccer.csv", row.names = FALSE)
 
 #----Función fbRank.dataframes, variables anotaciones y equipos
@@ -48,3 +48,32 @@ ranking <- rank.teams(scores=anotaciones, teams=equipos,
 
 #----Función predict: El equipo de casa gana, el equipo visitante gana o probabilidad de empate
 predict(ranking, date = fecha[n])
+
+
+##---- POSTWORK 6 -------
+# Importa el conjunto de datos match.data.csv a R y realiza lo siguiente:
+
+# Crea la serie de tiempo del promedio por mes de la suma de goles hasta diciembre de 2019.
+
+match = read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Santander-2021/main/Sesion-06/Postwork/match.data.csv")
+match = mutate(match,date = as.Date(date,"%Y-%m-%d"))
+
+# Agrega una nueva columna sumagoles que contenga la suma de goles por partido.
+match = mutate(match, sumagoles = (match$home.score+match$away.score))
+match = match %>%
+  mutate(
+    yearMonth = format(date,"%Y-%m")
+  )
+# Obtén el promedio por mes de la suma de goles.
+promedios = aggregate(match[,c("sumagoles")],by = list(MES = match$yearMonth), FUN = mean)
+#cambia el nombre 
+names (promedios)[2] = "promedio.goles"
+
+# Crea la serie de tiempo del promedio por mes de la suma de goles hasta diciembre de 2019.
+promedios.ts <- ts(promedios$promedio.goles, start= c(2010,08),end = c(2019, 12), fr = 10)
+
+# Grafica la serie de tiempo.
+plot(promedios.ts, col = c(2), ylim = c(1, 4),  xlab = "Fecha",
+     ylab = "Goles promedio")
+abline(h = mean(promedio.ts), lwd = 2, col = 2, lty = 2)
+title(main = "Serie de tiempo de promedio de goles por mes")
