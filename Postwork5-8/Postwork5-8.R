@@ -13,7 +13,7 @@ df_1819 = read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
 df_1920 = read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
 
 #----------- Punto 3 -----------
-# Selección de las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR
+# Selección de las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG
 df_1718 = select(df_1718,Date:FTAG)
 df_1819 = select(df_1819,Date:FTAG)
 df_1920 = select(df_1920,Date:FTAG)
