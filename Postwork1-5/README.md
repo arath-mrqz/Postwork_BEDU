@@ -6,6 +6,15 @@
 -Enríquez López José Andrés  
 -Juárez Fonseca César Eduardo
 
+# Introducción 
+La presión social juega un papel importante en el comportamiento de las personas y de grupos sociales. Esto se ha observado en diferentes estudios en economía, sociología y sicología. Algunos ejemplos actuales se pueden observar en inversiones (miedo a quedarse fue en inversiones como son acciones de empresas, criptomonedas o fondos de inversión), participación electoral (mayor porcentaje de votantes en elecciones intermedias en México), demandas sociales (manifestaciones, huelgas, concentraciones), decisiones gubernamentales (aceptación o rechazo de políticas internas o externas), etc.
+
+El deporte es un evento social que puede concentrar a uno o más grupos sociales, que pueden participar de forma pasiva (espectadores) o activa (jugadores). Uno de los deportes más populares a nivel mundial es el futbol soccer, existiendo incluso una institución que gobierna a todas las federaciones a nivel mundial, llamada Federación Internacional de Fútbol Asociación (FIFA). De este modo, el fútbol soccer concentra mueve grandes masas y flujos de efectivo. 
+
+Desde hace varios años el fútbol atrae a un sin número de personas a nivel mundial a los estadios para apoyar a su equipo favorito. Esto provoca en los jugadores de fútbol una presión social por ganar el partido, sin embargo, en diferentes estudios se ha observado que existe una tendencia de ventaja al jugar como equipo local. Esta ventaja se presenta al mostrar un mayor apoyo al equipo local dado por los expectarodes y el personal de arbitraje.
+
+# Hipótesis
+En el presente, se observará la relación de las anotaciones de los equipos al jugar como equipo local y visitante en la liga española de soccer de 2017-2020. Como hipótesis, se plantea que existe una dependencia en las anotaciones de los equipos al jugar como equipo local (obteniendo una mayor probabilidad de anotar) o jugar como equipo visitante (obteniendo una mayor probabilidad de anotación).   
 
 # POSTWORK 1.
 
@@ -131,7 +140,7 @@ data = union_all(data,df_1920)
 (FTHG.tab <- table(data$FTHG)/dim(data)[1])
 ```
 
- 2. Cálculo de probabilidades marginale para equipo visitante
+ 2. Cálculo de probabilidades marginales para equipo visitante
 ```R
 (FTAG.tab <- table(data$FTAG)/dim(data)[1] )
 ```
@@ -164,7 +173,7 @@ barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
 <img src="imagenes/goles_FTAG.jpeg" align="center"  height="470" width="400">
 </p>
  
- 6. HeatMap para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
+ 6. Mapa de calor para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 
 ```R
 conjunto.df <- as.data.frame(conjunto.tab)
@@ -179,6 +188,8 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 <img src="imagenes/Heatmap.png"  align="center" height="470" width="500">
 </p>
 
+## Observaciones
+Con base en el mapa de calor que resume la probabilidades conjuntas de anotaciones por equipos de casa y visitante, se observa que existe una mayor probabilidad de anotación del equipo que juega como local en comparación con el que juega como visitante. Esto indica que, el jugador local tendra una mayor probabilidad de ganar el partido.
 
 # POSTWORK 4
 
@@ -228,11 +239,11 @@ ggplotly(gdf4)
 </p>
 
 4. Determinación de ndependencia de las variabeles X e Y
-    Para determinar la independencia de las variables X e Y se hace uso de prueba de t-student, que considera lo siguiente:
-     - Hipótesis nula H0: μ = 1 
-     - Hipótesis alternativa H1: μ!=0
-     - Hipotesis de dos colas
-     - Nivel de significancia de α=0.95 
+    Para determinar la independencia de las variables X (goles obtenidos por el equipo local) e Y (goles obtenidos por el equipo visitante) se hace uso de prueba t-student, que considera lo siguiente:
+     - Hipótesis nula H0: μ = 1, indica la independencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
+     - Hipótesis alternativa H1: μ!=0, indica la dependencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
+     - Hipótesis de dos colas.
+     - Nivel de significancia estadística de α=0.95 
 
 ```R
  t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
@@ -253,5 +264,4 @@ ggplotly(gdf4)
 ```R 
   p-value < 2.2e-16 < 0.05 = α
 ```
-por lo tanto, la hipótesis nula se rechaza y señala que la media de la distribución es diferente de 1. Entonces, esto indica
-que las variables X e Y son variables dependientes.
+indicando que la hipótesis nula se rechaza y la media de la distribución es diferente de 1. Por lo tanto, las variables X e Y son variables dependientes, i.e., los goles obtenidos en cada partido se ven influenciados al jugar como equipo local o visitante.
