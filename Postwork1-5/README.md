@@ -24,7 +24,8 @@ En el presente, se observará la relación de las anotaciones de los equipos al 
 
 # Desarrollo
 
- 1. Carga de los paquetes o bibliotecas que se emplearan a lo largo de los postworks
+### Punto 1
+ - Carga de los paquetes o bibliotecas que se emplearan a lo largo de los postworks
 
 ```R
 library(ggplot2)
@@ -34,39 +35,41 @@ library(boot)
 library(plotly)
 ```
 
- 2. Establecimiento del espacio de trabajo en el directorio del archivo fuente con:
+ - Establecimiento del espacio de trabajo en el directorio del archivo fuente con:
 
 ```R
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 ```
 
- 3. Carga de datos
+ - Carga de datos
 
  ```R
 df_1920 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
 ```
 
- 4. Extracción de las columnas que contienen:
+### Punto 2
+
+ - Extracción de las columnas que contienen:
     - Número de goles anotados por los equipos que jugaron en casa (FTHG, columna 6) 
     - Número de goles anotados por los equipos que jugaron como visitante (FTAG, columna 7)
  ```R
 df_1920 <- df_1920[,c(6,7)]
 ```
-
-  5. Consulta de la función table
+### Punto 3
+ - Consulta de la función table
 
 ```R
 ?table
 ```
- 
- 6. Cálculo de las probabilidades marginales
+### Punto 4 
+ - Cálculo de las probabilidades marginales
 
 ```R
 (FTHG_pm = table(df_1920$FTHG)/dim(df_1920)[1]) # pm de goles en casa
 (FTAG_pm = table(df_1920$FTAG)/dim(df_1920)[1]) # pm de goles como visitante
 ```
 
- 7. Cálculo de la probabilidad conjunta
+ - Cálculo de la probabilidad conjunta
 
 ```R
 (FTHG_FTAG_pc <- table(df_1920$FTHG, df_1920$FTAG)/dim(df_1920)[1]) 
@@ -82,14 +85,16 @@ df_1920 <- df_1920[,c(6,7)]
 
 # Desarrollo
 
- 1. Carga de datos de soccer temporadas 2017/2018, 2018/2019 y 2019/2020 de la primera división liga española
+### Punto 1
+ - Carga de datos de soccer temporadas 2017/2018, 2018/2019 y 2019/2020 de la primera división liga española
 ```R
 df_1718 = read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
 df_1819 = read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
 df_1920 = read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
 ```
+### Punto 2
 
- 2. Revisión de información de los dataframe con las funciones
+ - Revisión de información de los dataframe con las funciones
 
 ```R
 str(df_1718)
@@ -101,22 +106,25 @@ View(df_1718)
 summary(df_1718)
 ...
 ```
+### Punto 3
 
- 3. Selección de las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR
+ - Selección de las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR
 ```R
 df_1718 = select(df_1718,Date:FTR)
 df_1819 = select(df_1819,Date:FTR)
 df_1920 = select(df_1920,Date:FTR)
 df_1920 = df_1920[,-2] # Elimina columna "Time" de los datos de la temporad 2019/2020
 ```
- 4. Reparación de fechas en los dataframes
+
+### Punto 4
+ - Reparación de fechas en los dataframes
 ```R
 df_1718 = mutate(df_1718,Date = as.Date(Date,"%d/%m/%y"))
 df_1819 = mutate(df_1819,Date = as.Date(Date,"%d/%m/%Y"))
 df_1920 = mutate(df_1920,Date = as.Date(Date,"%d/%m/%Y"))
 ```
 
- 5. Union de los dataframe en un único dataframe
+ - Union de los dataframe en un único dataframe
 ```R
 data = union_all(df_1718,df_1819)
 data = union_all(data,df_1920)
@@ -135,21 +143,29 @@ data = union_all(data,df_1920)
 
 # Desarrollo
 
- 1. Cálculo de probabilidades marginales para equipo local
+ El desarrollo de este apartado requiere conoce la probabilidad marginal y conjunta de las anotaciones obtenidas como equipo local (FTHG) y como equipo visitante (FTAH). Para ello definimos cada una de ellas, considerando dos subconjuntos de eventos pisibles X e Y (variables aleatorias) en el espacio muestral S, con x ∈ X e y ∈ Y:
+- Probabilidad marginal (p(x)): Este proporciona la probabilidad de un subconjunto de valores (probabilidad de una variable X o Y) sin conocer los valores de otras variables, i.e., P(X) = frecuencia relativa/ Número de muestras.
+- Probabilidad conjunta (p(x,y)): Esta describe cuanta masa de probabilidad se coloca en cada par posible (x,y), i.e., es la probabilidad de ocurrencia de los eventos X e Y (P(X∩Y) = P(X)P(Y|X)).
+
+Expuesto lo previo, se prosigue a obtener cada una de las probabilidades mencionadas.
+
+### Punto 1
+ - Cálculo de probabilidades marginales para equipo local
  ```R
 (FTHG.tab <- table(data$FTHG)/dim(data)[1])
 ```
 
- 2. Cálculo de probabilidades marginales para equipo visitante
+ - Cálculo de probabilidades marginales para equipo visitante
 ```R
 (FTAG.tab <- table(data$FTAG)/dim(data)[1] )
 ```
 
- 3. Cálculo de probabilidad conjunta para equipo local y visitante
+ - Cálculo de probabilidad conjunta para equipo local y visitante
 ```R
 (conjunto.tab <- table(data$FTHG, data$FTAG)/dim(data)[1])
 ```
- 4. Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo de casa.
+### Punto 2
+ - Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo de casa.
   
 ```R
 barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
@@ -161,7 +177,7 @@ barplot(FTHG.tab,main = "Equipo de casa (FTHG)",
 <img src="imagenes/goles_FTHG.jpeg" align="center" height="470" width="400">
 </p>
 
- 5. Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
+ - Gráfico de barras para las probabilidades marginales estimadas del número de goles que anota el equipo visitante.
 ```R
 barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
         col = c(brewer.pal(5, "Set1")),
@@ -173,7 +189,7 @@ barplot(FTAG.tab,main = "Equipo visitante (FTAG)",
 <img src="imagenes/goles_FTAG.jpeg" align="center"  height="470" width="400">
 </p>
  
- 6. Mapa de calor para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
+ - Mapa de calor para las probabilidades conjuntas estimadas de los números de goles que anotan el equipo de casa y el equipo visitante en un partido.
 
 ```R
 conjunto.df <- as.data.frame(conjunto.tab)
@@ -199,18 +215,17 @@ Con base en el mapa de calor que resume la probabilidades conjuntas de anotacion
 
 # Desarrollo
 
-Para determinar la independencia entre las variables de estudio, goles como equipo local (FTHG) y goles como equipo visitante (FTAH), se requiere determinar las probabilidades marginales y conjuntas de estas dos. Para ello definimos cada una de ellas, considerando dos subconjuntos de eventos pisibles X e Y (variables aleatorias) en el espacio muestral S, con x ∈ X e y ∈ Y:
-- Probabilidad marginal (p(x)): Este proporciona la probabilidad de un subconjunto de valores (probabilidad de una variable X o Y) sin conocer los valores de otras variables, i.e., P(X) = fr/n.
-- Probabilidad conjunta (p(x,y)): Esta describe cuanta masa de probabilidad se coloca en cada par posible (x,y), i.e., es la probabilidad de ocurrencia de los eventos X e Y (P(X∩Y) = P(X)P(Y|X)).
+Para determinar la independencia entre las variables de estudio, goles como equipo local (FTHG) y goles como equipo visitante (FTAH), se requieren de las probabilidades marginales (p(x), p(y)) y conjuntas (p(x,y)), las cuales fueron obtenidas en el apartado previo. 
+Dado esto, se dice que dos variables aleatorias X y Y son independientes si por cada par de valores x y y, su probabilidad conjunta es igual al producto de sus probabilidades marginales:
+ - p(x,y) = p(x)*p(y)
 
-Obtenido esto, se dice que dos variables aleatorias X y Y son independientes si por cada par de valores x y y, su probabilidad conjunta es igual al producto de sus probabilidades marginales:
-- p(x,y) = p(x)*p(y)
-
-esto es, p(x,y)/p(x)*p(y) = 1 cuando las variables son independientes.
+esto es, p(x,y)/(p(x)p(y)) = 1 cuando las variables son independientes.
 
 Dado lo anterior, se prosigue a determinar la independencia entre las variables de estudio definidas como goles como equipo local y goles como equipo visitante.
 
-1. Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
+## Punto 1
+
+ - Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
 ```R
  FTHG.df <- as.data.frame(FTHG.tab)
  FTAG.df <- as.data.frame(FTAG.tab)
@@ -221,7 +236,7 @@ Dado lo anterior, se prosigue a determinar la independencia entre las variables 
 
 
 ```
-2. Gráfico de barras para el cociente de las probabilidades conjuntas entre el producto de las probabilidades marginales
+ - Gráfico de barras para el cociente de las probabilidades conjuntas entre el producto de las probabilidades marginales
 ```R
  hist(conjunto.df$Cocientes, breaks = seq(0,5,0.5), #braques donde se va partieno
      main = "Tabla de Cocientes",
@@ -230,11 +245,19 @@ Dado lo anterior, se prosigue a determinar la independencia entre las variables 
      col = c(brewer.pal(5, "YlOrRd")))
 median(conjunto.df$Cocientes)
 ```
+| Parámetro | Mediana | Media  | Desviacion estandar | max | min |
+| :-: | :-:| :-: | :-: | :-:| :-: | 
+| (p(x,y)/(p(x)p(y) | 0.8814433 |0.859511 | 0.9801441 | 4.710744 | 0 |
+
 <p align="center">
 <img src="imagenes/TablaCocientes.png" height="470" width="500">
 </p>
 
-3. Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras.
+Los valores de la estadística descriptiva mostrados en la tabla previa y la gráfica de barras indica que la muestra presenta una dependencia en las variables X e Y, dado que se encuentran alejados de 1.
+
+## Punto 2
+
+ - Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras.
 ```R
 bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
 bootstrap <- colMeans(bootstrap)
@@ -249,7 +272,7 @@ ggplotly(gdf4)
 <img src="imagenes/histdist.png" height="470" width="600">
 </p>
 
-4. Determinación de dependencia o independencia de las variabeles X e Y.
+ - Determinación de dependencia o independencia de las variabeles X e Y.
 
 Para determinar la independencia de las variables X (goles obtenidos por el equipo local) e Y (goles obtenidos por el equipo visitante) se hace uso de prueba t-student, que considera lo siguiente:
 
@@ -272,7 +295,7 @@ Para determinar la independencia de las variables X (goles obtenidos por el equi
 ```
 
 ## Observaciones
-
+Los valores estadísticos obtenidos en el punto 1 mostraron inicialmente que, en la muestra de estudio, las variables X e Y son variables dependientes al no encontrar en valores a 1. Finalmente, para generalizar la información de la muestra y determinar si proviene de una distribución normal, se emplea el método de bootstrap y posteriormente se aplica la prueba t-student, que indica que la muestra proviene de una distribución normal y que además las variables X e Y son dependientes.
 
 # CONCLUSIÓN
 
