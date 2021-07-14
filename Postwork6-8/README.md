@@ -130,3 +130,160 @@ El Real Madrid jugó contra el Rayo Valllecano y el resultado fue una autentica 
 ```R 
 coleccion$disconnect() 
 ```
+
+# Postwork 8
+
+## Objetivo
+- Mediante una aplicación de shiny, crear una interfaz gráfica para observar el resultado de la toma de desiciones consecutivas, cuando estas se basan en datos históricos, además de mostrar los resultados previos.
+
+## Desarrollo
+Para este postwork final se crea una aplicación de shiny. De esta manera el usuario pueda interactuar con los datos en representaciones gráficas, tablas y variaciones de parámetros, creando una experiencia de usuario más amigable. Al crear una aplicación en shiny se vuelve muy sencillo compartir los resultados obtenidos, ya que se puede publicar en un servidor gratuito. Hay dos maneras diferentes de crear una aplicación web de shiny:
+
+- Usando dos archivos: ui.R y server.R, lo cual permite tener un mejor control, pero se trabaja en dos archivos distintos. 
+- Usando un solo archivo que se almacena en un archivo llamado app.R, lo cual permite almacenar todo en un solo fichero.
+
+Ambos métodos dan el mismo resultado, pero en el archivo app.R se separan las funciones de los archivos ui.R y server.R. Dentro de la sección del ui.R se colocan los distintos objetos que controlan la apariencia del dashboard, como encabezados,títulos , paneles laterales,el cuerpo, pestañas, etc. Todo lo que se refiera a la interacción entre usuario y máquina para poder realizar las consultas permitidas y poder interactuar. Por otro lado, dentro de server.R se ingresa la sintaxis necesaria para poder elaborar tablas, gráficas, imágenes y demás objetos que se mostrarán en la GUI.
+
+### Punto 1
+- Ejecuta el código momios.R
+Este código lee datos de la liga española desde la temporada 2010/2011 hasta la 2019/2020 y almacena los datos de los equipos local y visitante en el archivo match.data.csv. Después divide los datos en conjutos de entrenamiento y prueba para ajustar un modelo usando la librería fbRanks. Se crean predicciones y con ellas se hacen dos secuencias de datos basadas en momios. Una que genera una gráfica de las ganancias máximas y otra de las ganancias promedio.
+
+### Punto 2
+- Almacena los gráficos resultantes en formato png
+Las dos gráficas generadas con el código momios.R las guardamos localmente en nuestra carpeta de imágenes.
+
+### Punto 3 
+- Crea un dashboard donde se muestren los resultados con 4 pestañas.
+Creamos un dashboard en un solo archivo app.R, donde cada pestaña satisfacerá cada uno de los siguientes puntos: 
+- Una pestaña con gráficas de barras, donde en el eje de las X se muestren los goles de local y visitante, con un menu de selección (en choices deben aparecer éstas variables), utiliza la geometría de tipo barras, además de hacer un facet_wrap con la variable de el equipo visitante
+- Realiza una pestaña donde agregues las imágenes de las gráficas del postwork 3
+- En otra pestaña coloca el data table del fichero match.data.csv
+- Por último en otra pestaña agrega las imágenes de las gráficas de los factores de ganancia promedio y máximo
+
+Al crear nuestro archivo app, lo primero que hacemos es importar las librerías que vamos a necesitar:
+```R 
+        library(shiny)
+        library(shinydashboard)
+        library(ggplot2)
+        #install.packages("shinythemes")
+        library(shinythemes)
+        library(plotly)
+```
+Como se mencionó antes, en el archivo app.R se dividen las funciones de los archivos ui.R y server.R. 
+Esta primera parte es análoga al archivo ui.R, la cual crea las 4 pestañas y contiene la estructura de nuestro dashboard, además de incluir las imágenes obtenidas del archivo momios.R y del postwork 3:
+```R 
+        ui <- 
+
+            fluidPage(
+
+                dashboardPage( skin="red",
+
+                    dashboardHeader(title = "Postwork 8"),
+
+                    dashboardSidebar(
+        # ----------- Crea un dashboard donde se muestren los resultados con 4 pestañas:                
+                        sidebarMenu(
+                            menuItem("Goles", tabName = "Goles", icon = icon("futbol")),
+                            menuItem("Gráficas", tabName = "graph", icon = icon("area-chart")),
+                            menuItem("Tabla", tabName = "data_table", icon = icon("table")),
+                            menuItem("Factores de ganancia", tabName = "img", icon = icon("line-chart"))
+                        )
+
+                    ),
+
+                    dashboardBody(
+
+                        tabItems(
+
+                            # Gráfica de Barras uqe mostrará la selección de equipo local o visitante
+                            tabItem(tabName = "Goles",
+                                    fluidRow(
+                                            titlePanel("Goles"), 
+                                        selectInput("x", "Seleccione equipo local o visitante",
+                                                    choices = c("Goles local", "Goles visitante")),
+                                        box(plotlyOutput("plot1"),  width="100%")
+                                    )
+                            ),
+
+                            # Imágenes obtenidas en el postwork 3 sobre el número de goles anotados 
+                            tabItem(tabName = "graph", 
+                                    fluidRow(
+                                        titlePanel(h3("Imágenes Postwork 3")),
+                                        img( src = "im1.jpeg", 
+                                             height = 350, width = 500),
+                                        img( src = "im2.jpeg", 
+                                             height = 350, width = 500),
+                                        img( src = "im3.png", 
+                                             height = 350, width = 500),
+                                    )
+                            ),
+
+
+        # ------------- Tabla de datos de la liga española desde el año 2010 al 2020 del fichero match.data.csv
+                            tabItem(tabName = "data_table",
+                                    fluidRow(        
+                                        titlePanel(h3("Data Table")),
+                                        dataTableOutput ("data_table")
+                                    )
+                            ), 
+          # ------  Ganancias máxima y promedio obtenidas al seleccionar ciertas secuencias basadas en momios y predicciones
+                            tabItem(tabName = "img",
+                                    fluidRow(
+                                        titlePanel(h3("Gráficas de ganancias")),
+                                        img( src = "Rplot1.png", 
+                                             height = 500, width = 800),
+                                        img( src = "Rplot2.png", 
+                                             height = 500, width = 800)
+                                    )
+                            )
+
+                        )
+                    )
+                )
+            )
+```
+Lo siguiente es análogo al archivo server.R. Aquí se crea la gráfica de barras con el face_wrap para los equipos visitantes, y se incluye la tabla de datos, a la cual se le cambian los nombres para que el resultado sea más estético.
+```R 
+        server <- function(input, output) {
+            library(ggplot2)
+
+
+            # Una con las gráficas de barras, donde en el eje de las x se muestren los goles de local y visitante con un
+            # menu de selección, con una geometría de tipo barras además de hacer un facet_wrap con el equipo visitante
+
+            output$plot1 <- renderPlotly({
+                data <- read.csv("match.data.csv")
+                names(data) <- c("Fecha", "Local", "Goles local", "Visitante", "Goles visitante")
+                x <- data[,input$x]
+                bin <- seq(min(x), max(x), length.out = 9)
+
+                ggplot(data, aes(x)) + 
+                    geom_bar(fill="blue") +
+                    labs( xlim = c(0, max(x))) + 
+                    theme_light() +
+                    xlab(input$x) + ylab("Frecuencia")  +
+                    facet_wrap(vars(data$`Visitante`))  + 
+                    theme(  strip.background = element_rect(
+                        color="black", fill="#FC4E07", size=1.5, linetype="solid"
+                    ), panel.background = element_rect(fill = "mintcream"), 
+                                                              legend.position = "none")
+
+
+            })
+
+
+            data <- read.csv("match.data.csv")
+            names(data) <- c("Fecha", "Local", "Goles local", "Visitante", "Goles  visitante")
+            #Data Table
+            output$data_table <- renderDataTable( {data}, 
+                                                  options = list(aLengthMenu = c(5,25,50),
+                                                                 iDisplayLength = 5)
+            )
+
+        }
+```
+Finalmente el archivo contiene la parte encargada de mostrar nuestro dashboard al ejecutar la aplicación. 
+```R 
+        shinyApp(ui, server)
+```
+Nota: si se presentan problemas al codificar se necesita guardar el archivo con codificación UTF-8.
