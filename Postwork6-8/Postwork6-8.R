@@ -69,4 +69,135 @@ coleccion$disconnect()
 
 ## POSTWORK 8 ##
 
+## app.R ##
+
+# Para este postwork genera un dashboard en un solo archivo app.R, para esto realiza lo siguiente:
+    
+#---- Ejecuta el código momios.R
+
+# Almacena los gráficos resultantes en formato png
+
+
+
+library(shiny)
+library(shinydashboard)
+library(ggplot2)
+#install.packages("shinythemes")
+library(shinythemes)
+library(plotly)
+
+#Esta parte es el análogo al ui.R
+ui <- 
+    
+    fluidPage(
+        
+        dashboardPage( skin="red",
+            
+            dashboardHeader(title = "Postwork 8"),
+            
+            dashboardSidebar(
+# ----------- Crea un dashboard donde se muestren los resultados con 4 pestañas:                
+                sidebarMenu(
+                    menuItem("Goles", tabName = "Goles", icon = icon("futbol")),
+                    menuItem("Gráficas", tabName = "graph", icon = icon("area-chart")),
+                    menuItem("Tabla", tabName = "data_table", icon = icon("table")),
+                    menuItem("Factores de ganancia", tabName = "img", icon = icon("line-chart"))
+                )
+                
+            ),
+            
+            dashboardBody(
+                
+                tabItems(
+                    
+                    # Gráfica de Barras uqe mostrará la selección de equipo local o visitante
+                    tabItem(tabName = "Goles",
+                            fluidRow(
+                                    titlePanel("Goles"), 
+                                selectInput("x", "Seleccione equipo local o visitante",
+                                            choices = c("Goles local", "Goles visitante")),
+                                box(plotlyOutput("plot1"),  width="100%")
+                            )
+                    ),
+                    
+                    # Imágenes obtenidas en el postwork 3 sobre el número de goles anotados 
+                    tabItem(tabName = "graph", 
+                            fluidRow(
+                                titlePanel(h3("Imágenes Postwork 3")),
+                                img( src = "im1.jpeg", 
+                                     height = 350, width = 500),
+                                img( src = "im2.jpeg", 
+                                     height = 350, width = 500),
+                                img( src = "im3.png", 
+                                     height = 350, width = 500),
+                            )
+                    ),
+                    
+                    
+# ------------- Tabla de datos de la liga española desde el año 2010 al 2020 del fichero match.data.csv
+                    tabItem(tabName = "data_table",
+                            fluidRow(        
+                                titlePanel(h3("Data Table")),
+                                dataTableOutput ("data_table")
+                            )
+                    ), 
+  # ------  Ganancias máxima y promedio obtenidas al seleccionar ciertas secuencias basadas en momios y predicciones
+                    tabItem(tabName = "img",
+                            fluidRow(
+                                titlePanel(h3("Gráficas de ganancias")),
+                                img( src = "Rplot1.png", 
+                                     height = 500, width = 800),
+                                img( src = "Rplot2.png", 
+                                     height = 500, width = 800)
+                            )
+                    )
+                    
+                )
+            )
+        )
+    )
+
+#De aquí en adelante es la parte que corresponde al server
+
+server <- function(input, output) {
+    library(ggplot2)
+    
+    
+    # Una con las gráficas de barras, donde en el eje de las x se muestren los goles de local y visitante con un
+    # menu de selección, con una geometría de tipo barras además de hacer un facet_wrap con el equipo visitante
+    
+    output$plot1 <- renderPlotly({
+        data <- read.csv("match.data.csv")
+        names(data) <- c("Fecha", "Local", "Goles local", "Visitante", "Goles visitante")
+        x <- data[,input$x]
+        bin <- seq(min(x), max(x), length.out = 9)
+        
+        ggplot(data, aes(x)) + 
+            geom_bar(fill="blue") +
+            labs( xlim = c(0, max(x))) + 
+            theme_light() +
+            xlab(input$x) + ylab("Frecuencia")  +
+            facet_wrap(vars(data$`Visitante`))  + 
+            theme(  strip.background = element_rect(
+                color="black", fill="#FC4E07", size=1.5, linetype="solid"
+            ), panel.background = element_rect(fill = "mintcream"), 
+                                                      legend.position = "none")
+        
+        
+    })
+    
+   
+    data <- read.csv("match.data.csv")
+    names(data) <- c("Fecha", "Local", "Goles local", "Visitante", "Goles  visitante")
+    #Data Table
+    output$data_table <- renderDataTable( {data}, 
+                                          options = list(aLengthMenu = c(5,25,50),
+                                                         iDisplayLength = 5)
+    )
+    
+}
+
+
+shinyApp(ui, server)
+# Nota: recuerda que si tienes problemas con el codificado guarda tu archivo app.R con la codificación UTF-8
 
