@@ -199,6 +199,17 @@ Con base en el mapa de calor que resume la probabilidades conjuntas de anotacion
 
 # Desarrollo
 
+Para determinar la independencia entre las variables de estudio, goles como equipo local (FTHG) y goles como equipo visitante (FTAH), se requiere determinar las probabilidades marginales y conjuntas de estas dos. Para ello definimos cada una de ellas, considerando dos subconjuntos de eventos pisibles X e Y (variables aleatorias) en el espacio muestral S, con x ∈ X e y ∈ Y:
+- Probabilidad marginal (p(x)): Este proporciona la probabilidad de un subconjunto de valores (probabilidad de una variable X o Y) sin conocer los valores de otras variables, i.e., P(X) = fr/n.
+- Probabilidad conjunta (p(x,y)): Esta describe cuanta masa de probabilidad se coloca en cada par posible (x,y), i.e., es la probabilidad de ocurrencia de los eventos X e Y (P(X∩Y) = P(X)P(Y|X)).
+
+Obtenido esto, se dice que dos variables aleatorias X y Y son independientes si por cada par de valores x y y, su probabilidad conjunta es igual al producto de sus probabilidades marginales:
+- p(x,y) = p(x)*p(y)
+
+esto es, p(x,y)/p(x)*p(y) = 1 cuando las variables son independientes.
+
+Dado lo anterior, se prosigue a determinar la independencia entre las variables de estudio definidas como goles como equipo local y goles como equipo visitante.
+
 1. Obten tabla de cocientes de probabilidad conjunta entre el producto de las probabilidades marginales 
 ```R
  FTHG.df <- as.data.frame(FTHG.tab)
@@ -223,7 +234,7 @@ median(conjunto.df$Cocientes)
 <img src="imagenes/TablaCocientes.png" height="470" width="500">
 </p>
 
-3. Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras
+3. Aplicación del método de Bootstrap para la obtención de la aproximación de distribución de las muestras.
 ```R
 bootstrap <- replicate(n=10000, sample(conjunto.df$Cocientes, replace = TRUE))
 bootstrap <- colMeans(bootstrap)
@@ -241,10 +252,11 @@ ggplotly(gdf4)
 4. Determinación de dependencia o independencia de las variabeles X e Y.
 
 Para determinar la independencia de las variables X (goles obtenidos por el equipo local) e Y (goles obtenidos por el equipo visitante) se hace uso de prueba t-student, que considera lo siguiente:
-     - Hipótesis nula H0: μ = 1, indica la independencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
-     - Hipótesis alternativa H1: μ!=0, indica la dependencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
-     - Hipótesis de dos colas.
-     - Nivel de significancia estadística de α=0.95 
+
+ - Hipótesis nula H0: μ = 1, indica la independencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
+ - Hipótesis alternativa H1: μ!=0, indica la dependencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
+ - Hipótesis de dos colas.
+ - Nivel de significancia estadística de α=0.95 
 
 ```R
  t.test(bootstrap, alternative = "two.sided", mu = 1, conf.level = 0.95)
@@ -258,6 +270,9 @@ Para determinar la independencia de las variables X (goles obtenidos por el equi
  mean of x 
   0.859511 
 ```
+
+## Observaciones
+
 
 # CONCLUSIÓN
 
