@@ -127,5 +127,5 @@ El Real Madrid jugó contra el Rayo Valllecano y el resultado fue una autentica 
 - Por último, no olvides cerrar la conexión con la BDD
 
 ```R 
-coleccion$disconnect()
+coleccion$disconnect() 
 ```
