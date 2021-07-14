@@ -161,12 +161,10 @@ Model based on data from 18/08/2017 to 16/07/2020
 ```R 
         #Agrupamos por mes y año
         data <- mutate(data, Ym = format(date, "%Y-%m"))
+        #Movemos los unicos encuentros que se jugaron en junio para el mes de mayo anterior
+        data[data$Ym=="2013-06",7]<-"2013-05"
         data.promedios <- data %>% group_by(Ym) %>% summarise(goles = mean(sumagoles))
-        
-        #Eliminamos el unico promedio de junio que tenemos para usar una frecuencia de 10
-        data.promedios<-data.promedios[data.promedios$Ym!="2013-06",]
-        #Tambien eliminamos los promedios de los meses del 2020
-        data.promedios<-data.promedios[-c(96,97, 98, 99,100,101), ]
+   
 ```
 ### Punto 3
 - Crea la serie de tiempo del promedio por mes de la suma de goles hasta diciembre de 2019.
@@ -186,10 +184,10 @@ Model based on data from 18/08/2017 to 16/07/2020
                 fg = "orange"
                      )
                 abline(h = mean(promedio.ts), lwd = 2, col = 2, lty = 2)
-                abline(h = 2, lwd = 2, col = 3, lty = 2)
+
                 legend("bottomleft", legend = paste("Media= ",round(mean(promedio.ts),digits=2)),
                        lty = 2,
-                       bty = "n",
+                       bty = "n", # Elimina la línea de la caja,
                        lwd = 2, col = c("red"),
                        cex = .8)
 ```
