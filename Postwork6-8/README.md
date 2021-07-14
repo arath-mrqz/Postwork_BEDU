@@ -192,7 +192,7 @@ Model based on data from 18/08/2017 to 16/07/2020
                        cex = .8)
 ```
 <p align="center">
-<img src="imágenes/Serie de tiempo.png"  align="center" height="315" width="484">
+<img src="imágenes/Series de tiempo.png"  align="center" height="315" width="484">
 </p>
 
 
