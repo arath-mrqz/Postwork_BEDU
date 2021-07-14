@@ -79,3 +79,52 @@ La media promedio entre todos los meses a lo largo del tiempo es 2.73 goles sin 
 Conociendo este comportamiento de nuestros datos concluimos que la apuesta más segura que podemos hacer es apostar a que habrá 2 o más goles en el partido debido a que nuestra media promedio se encuentra en 2.73.
 
 
+# Postwork 7 Alojar un fichero a un local host de MongoDB
+  
+## Objetivo
+- Realizar el alojamiento de un fichero .csv a una base de datos (BDD), en un local host de Mongodb a través de R
+
+## Requisitos
+- Mongodb Compass
+- librerías mongolite
+- Nociones básicas de manejo de BDD
+
+## Desarrollo
+Utilizando el manejador de BDD Mongodb Compass (previamente instalado), deberás de realizar las siguientes acciones:
+### Punto 1
+- Alojar el fichero match.data.csv en una base de datos llamada match_games, nombrando al collection como match
+```R 
+#Primero leemos nuestro dataset
+data <- read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Santander-2021/main/Sesion-07/Postwork/match.data.csv")
+#Arreglamos las fechas
+data <- mutate(data, date = as.Date(date, "%Y-%m-%d"))
+
+#Para acceder a la base de datos debes cambiar la URL por tu cadena de conexión
+#Creamos la base de datos y la collction
+coleccion = mongo("match", "match_games", url = "mongodb+srv://USUARIO:CONTRASE?A-@cluster0.lku93.mongodb.net/test")
+
+# Por último Alojamos nuestro fichero
+coleccion$insert(data)
+```
+
+
+### Punto 2
+- Una vez hecho esto, realizar un count para conocer el número de registros que se tiene en la base
+```R 
+coleccion$count(query = '{}')
+```
+Al realizar esta consulta obtuvimos que en la bases de datos tenemos 3800 Registros
+### Punto 3
+- Realiza una consulta utilizando la sintaxis de Mongodb en la base de datos, para conocer el número de goles que metió el Real Madrid el 20 de diciembre de 2015 y contra que equipo jugó, ¿perdió ó fue goleada?
+```R 
+coleccion$find(query = '{"home_team": "Real Madrid", "date": "2015-12-20"}' )
+```
+El Real Madrid jugó contra el Rayo Valllecano y el resultado fue una autentica goleada 10-2 a favor de los Merengues
+
+<p align="center">
+<img src="imágenes/Madrid_Rayo.JPG"  align="center" height="434" width="776">
+</p>
+- Por último, no olvides cerrar la conexión con la BDD
+```R 
+coleccion$disconnect()
+```
