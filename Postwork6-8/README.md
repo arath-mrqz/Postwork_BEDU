@@ -74,7 +74,7 @@ Primero que todo leemos nuestro dataset
 ## Conclusión
 Como se puede observar, en la gráfica obtenida tenemos una serie estacionaria en la media esto se puede concluir debido a que la media se mantiene constante a lo largo del tiempo, la importancia de una serie estacionaria radica en que es mucho más fácil de predecir su comportamiento, si tenemos una serie estacionaria podemos suponer que se seguirá comportando como lo ha hecho anteriormente o al menos tiene una gran probabilidad de continuar comportándose de la misma manera.
 
-La media promedio entre todos los meses a lo largo del tiempo es 2.7 goles sin embargo se puede observar un pico en la gráfica que están totalmente fuera de la media promedio, investigando un poco encontramos que la razón por la cual existe este pico es porque en el mes de agosto del 2015 hubo 6 empates a 0 goles y en otros 4 encuentros solamente se anotó 1 gol esto es por lo cual se redujo drásticamente el promedio de goles mensuales.
+La media promedio entre todos los meses a lo largo del tiempo es 2.73 goles sin embargo se puede observar un pico en la gráfica que están totalmente fuera de la media promedio, investigando un poco encontramos que la razón por la cual existe este pico es porque en el mes de agosto del 2015 hubo 6 empates a 0 goles y en otros 4 encuentros solamente se anotó 1 gol esto es por lo cual se redujo drásticamente el promedio de goles mensuales.
 
 Conociendo este comportamiento de nuestros datos concluimos que la apuesta más segura que podemos hacer es apostar a que habrá 2 o más goles en el partido debido a que nuestra media promedio se encuentra en 2.73.
 
