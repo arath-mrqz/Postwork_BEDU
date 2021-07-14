@@ -122,8 +122,9 @@ coleccion$find(query = '{"home_team": "Real Madrid", "date": "2015-12-20"}' )
 El Real Madrid jugó contra el Rayo Valllecano y el resultado fue una autentica goleada 10-2 a favor de los Merengues
 
 <p align="center">
-<img src="imágenes/Madrid_Rayo.PNG"  align="center" height="434" width="776">
+<img src="imágenes/Madrid_Rayo.png"  align="center" height="434" width="776">
 </p>
+
 - Por último, no olvides cerrar la conexión con la BDD
 
 ```R 
