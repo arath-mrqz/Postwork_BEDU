@@ -32,7 +32,9 @@ library(dplyr)
                 col.sub="brown",
                 fg = "orange"
                      )
+        #linea en la media
                 abline(h = mean(promedio.ts), lwd = 2, col = 2, lty = 2)
+        #linea para la apuesta mas segura
                 abline(h = 2, lwd = 2, col = 3, lty = 2)
                 legend("bottomleft", legend = paste("Media= ",round(mean(promedio.ts),digits=2)),
                        lty = 2,
@@ -40,7 +42,7 @@ library(dplyr)
                        lwd = 2, col = c("red"),
                        cex = .8)
 
-# Notas para los datos de soccer: https://www.football-data.co.uk/notes.txt
+
 
 
 ## POSTWORK 7 ##
