@@ -156,7 +156,7 @@ Primero que todo leemos nuestro dataset
 - Importa el conjunto de datos match.data.csv a R y realiza lo siguiente:
 ```R 
         data = read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Santander-2021/main/Sesion-06/Postwork/match.data.csv")
-        #Arrglar fechas
+        #Arreglar fechas
         data <- mutate(data, date = as.Date(date, "%Y-%m-%d"))
 ```
 ### Punto 1
