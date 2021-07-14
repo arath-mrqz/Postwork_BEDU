@@ -238,8 +238,9 @@ ggplotly(gdf4)
 <img src="imagenes/histdist.png" height="470" width="600">
 </p>
 
-4. Determinación de ndependencia de las variabeles X e Y
-    Para determinar la independencia de las variables X (goles obtenidos por el equipo local) e Y (goles obtenidos por el equipo visitante) se hace uso de prueba t-student, que considera lo siguiente:
+4. Determinación de dependencia o independencia de las variabeles X e Y.
+
+Para determinar la independencia de las variables X (goles obtenidos por el equipo local) e Y (goles obtenidos por el equipo visitante) se hace uso de prueba t-student, que considera lo siguiente:
      - Hipótesis nula H0: μ = 1, indica la independencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
      - Hipótesis alternativa H1: μ!=0, indica la dependencia de las anotaciones obtenidas por los equipos al jugar como equipo local o visitante.
      - Hipótesis de dos colas.
