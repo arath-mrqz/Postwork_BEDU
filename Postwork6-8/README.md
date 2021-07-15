@@ -289,3 +289,7 @@ Finalmente el archivo contiene la parte encargada de mostrar nuestro dashboard a
 Nota: si se presentan problemas al codificar se necesita guardar el archivo con codificación UTF-8.
 
 Finalmente se publica el dashboard, el cual puede ser observado [aquí](https://jose-andres-enriquez-lopez.shinyapps.io/Postwork8/).
+
+## Conclusión
+
+Hemos creado el dashboard mostrando los resultados de nuestro trabajo. Presentamos el resultado de cada punto junto con nuestras conclusiones. En primer lugar observamos que nuestro dashboard tiene las 4 pestañas 
