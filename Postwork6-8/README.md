@@ -319,7 +319,7 @@ En la última pestaña observamos las gráficas obtenidas de momios.R. En la gr�
 
 En la gráfica de ganancias promedio se observa una tendencia de decrecimiento hasta el juego 200 que se podría modelar como lineal. Hay cierta recuperación hasta cerca del juego 300 y entre el 400 y 500, pero jamás se recupera el capital inicial. 
 <p align="center">
-<img src="imágenes/Rplot1.png"  align="center" height="538" width="862">
+<img src="imágenes/Rplot2.png"  align="center" height="538" width="862">
 </p>
 
 __¡Definitivamente hay que tener cuidado al apostar!__
