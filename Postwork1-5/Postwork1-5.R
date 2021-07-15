@@ -228,7 +228,7 @@ ranking <- rank.teams(scores=anotaciones, teams=equipos,
                       min.date = fecha[1], max.date=fecha[n-1],
                       date.format = '%d/%m/%Y')
 
-#----------- Punto 1 -----------
+#----------- Punto 4 -----------
 #----Función predict: El equipo de casa gana, el equipo visitante gana o probabilidad de empate
 predict(ranking, date = fecha[n])
 
