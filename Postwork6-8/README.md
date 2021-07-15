@@ -129,7 +129,7 @@ El Real Madrid jugó contra el Rayo Vallecano y el resultado fue una autentica g
 </p>
 
 - Por último, no olvides cerrar la conexión con la BDD
-- 
+
 ```R 
 coleccion$disconnect() 
 ```
@@ -137,6 +137,11 @@ Aunque no es obligatoria desconectarte de la base de datos es una buena practica
 la utiliza no tiene mucho sentido pero exixten bases de datos a las cuales se conectan millones de usuarios y es aqui donde es de mucha importancia desconectarte al
 finalizar tu trabajo.
 
+## Conclusión
+Con ayuda de algunos paquetes y librerias RStudio nos permite realizar la conexion con algunas bases de datos lo cual es muy útil ya que no necesitas descargar los 
+archivos de la nube, cargarlos a RStudio, realizar los analisis, modificaciones y despues repetir el proceso para cargarlo nuevamente a la nube, estas librerias y 
+paquetes nos simplifican el trabajo ya que simplemente hacemos la conexion y ya podemos editar y cargar las bases de datos directamente en la nube sin la necesidad
+de pasos extra.
 
 # Postwork 8
 
