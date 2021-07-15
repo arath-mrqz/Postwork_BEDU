@@ -293,3 +293,32 @@ Finalmente se publica el dashboard, el cual puede ser observado [aquí](https://
 ## Conclusión
 
 Hemos creado el dashboard mostrando los resultados de nuestro trabajo. Presentamos el resultado de cada punto junto con nuestras conclusiones. En primer lugar observamos que nuestro dashboard tiene las 4 pestañas 
+<p align="center">
+<img src="imágenes/pestanas.png"  align="center" height="307" width="290">
+</p>
+
+En la priner pestaña tenemos nuestra gráfica de barras, con el botoón de selección para ver los goles de casa o visitante. Al incluir el facet_wrap, podemos ver los goles que cada equipo ha anotado, permitiendo concentrarnos en los resultados de algún equipo en particular, y contrastar la cantidad de goles cuando se juega de local o visitante. Notamos que como visitantes, la mayoría de los equipos tienden a anotar un gol o menos. 
+<p align="center">
+<img src="imágenes/pestana1.png"  align="center" height="335" width="780">
+</p>
+
+En la segunda pestaña incluimos los resultados del postwork 3, permitiendo observar las gráficas de frecuencias en un solo lugar. 
+<p align="center">
+<img src="imágenes/pestana2.png"  align="center" height="460" width="623">
+</p>
+
+En la tercer pestaña podemos visualizar nuestra tabla de datos, controlando la cantidad que se muestra en la pantalla (5, 25 ó 50), además de tener barras de búsqueda para facilitar el trabajo del usuario. 
+<p align="center">
+<img src="imágenes/pestana3.png"  align="center" height="246" width="785">
+</p>
+
+En la última pestaña observamos las gráficas obtenidas de momios.R. En la gráfica de ganancias máximas observamos que hay un pico cerca del juego 400 donde supera el capital inicial, después de lo cual disminuyen las ganancias hasta alrededor del jeugo 500, donde se supera de nuevo el pico de ganancias, y el pico más alto se alcanza justo antes del juego 600.
+<p align="center">
+<img src="imágenes/Rplot1.png"  align="center" height="538" width="862">
+</p>
+
+En la gráfica de ganancias promedio se observa una tendencia de decrecimiento hasta el juego 200 que se podría modelar como lineal. Hay cierta recuperación hasta cerca del juego 300 y entre el 400 y 500, pero jamás se recupera el capital inicial. 
+<p align="center">
+<img src="imágenes/Rplot1.png"  align="center" height="538" width="862">
+</p>
+**¡Definitivamente hay que tener cuidado al apostar!**
