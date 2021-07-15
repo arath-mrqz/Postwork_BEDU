@@ -91,7 +91,8 @@ Conociendo este comportamiento de nuestros datos concluimos que la apuesta más 
 
 ## Desarrollo
 Para desarrollar este postwork es necesario tener una cuenta en MongoDB Atlas que es donde se van a alojar nuestras bases de datos en la nube, además 
-se necesita MongoDB Compass instalado en nuestro ordenador debido a que es el que nos permite hacer la conexion entre la base de datos en la nube y RStudio
+se necesita MongoDB Compass instalado en nuestro ordenador debido a que es el que nos permite hacer la conexion entre la base de datos en la nube y RStudio.
+
 Utilizando el manejador de BDD Mongodb Compass (previamente instalado), deberás de realizar las siguientes acciones:
 ### Punto 1
 - Alojar el fichero match.data.csv en una base de datos llamada match_games, nombrando al collection como match
