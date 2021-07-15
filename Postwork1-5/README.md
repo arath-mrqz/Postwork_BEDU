@@ -14,7 +14,7 @@ El deporte es un evento social que puede concentrar a uno o más grupos sociales
 Desde hace varios años el fútbol atrae a un sin número de personas a nivel mundial a los estadios para apoyar a su equipo favorito. Esto provoca en los jugadores de fútbol una presión social por ganar el partido, sin embargo, en diferentes estudios se ha observado que existe una tendencia de ventaja al jugar como equipo local. Esta ventaja se presenta al mostrar un mayor apoyo al equipo local dado por los expectarodes y el personal de arbitraje.
 
 # Hipótesis
-En el presente, se observará la relación de las anotaciones de los equipos al jugar como equipo local y visitante en la liga española de soccer de 2017-2020. Como hipótesis, se plantea que existe una dependencia en las anotaciones de los equipos al jugar como equipo local (obteniendo una mayor probabilidad de anotar) o jugar como equipo visitante (obteniendo una mayor probabilidad de anotación).   
+En el presente, se observará la relación de las anotaciones de los equipos al jugar como equipo local y visitante en la liga española de soccer de 2017-2020. Como hipótesis, se plantea que existe una dependencia en las anotaciones de los equipos al jugar como equipo local (obteniendo una mayor probabilidad de anotar) o jugar como equipo visitante (obteniendo una menor probabilidad de anotación).   
 
 # POSTWORK 1.
 
