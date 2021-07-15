@@ -287,3 +287,5 @@ Finalmente el archivo contiene la parte encargada de mostrar nuestro dashboard a
         shinyApp(ui, server)
 ```
 Nota: si se presentan problemas al codificar se necesita guardar el archivo con codificación UTF-8.
+
+Finalmente se publica el dashboard, el cual puede ser observado [aquí](https://jose-andres-enriquez-lopez.shinyapps.io/Postwork8/).
