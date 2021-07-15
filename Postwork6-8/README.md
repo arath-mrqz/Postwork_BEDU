@@ -321,4 +321,5 @@ En la gráfica de ganancias promedio se observa una tendencia de decrecimiento h
 <p align="center">
 <img src="imágenes/Rplot1.png"  align="center" height="538" width="862">
 </p>
-**¡Definitivamente hay que tener cuidado al apostar!**
+
+__¡Definitivamente hay que tener cuidado al apostar!__
