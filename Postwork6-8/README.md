@@ -90,6 +90,8 @@ Conociendo este comportamiento de nuestros datos concluimos que la apuesta más 
 - Nociones básicas de manejo de BDD
 
 ## Desarrollo
+Para desarrollar este postwork es necesario tener una cuenta en MongoDB Atlas que es donde se van a alojar nuestras bases de datos en la nube, además 
+se necesita MongoDB Compass instalado en nuestro ordenador debido a que es el que nos permite hacer la conexion entre la base de datos en la nube y RStudio
 Utilizando el manejador de BDD Mongodb Compass (previamente instalado), deberás de realizar las siguientes acciones:
 ### Punto 1
 - Alojar el fichero match.data.csv en una base de datos llamada match_games, nombrando al collection como match
@@ -119,17 +121,21 @@ Al realizar esta consulta obtuvimos que en la bases de datos tenemos 3800 Regist
 ```R 
 coleccion$find(query = '{"home_team": "Real Madrid", "date": "2015-12-20"}' )
 ```
-El Real Madrid jugó contra el Rayo Valllecano y el resultado fue una autentica goleada 10-2 a favor de los Merengues
+El Real Madrid jugó contra el Rayo Vallecano y el resultado fue una autentica goleada 10-2 a favor de los Merengues
 
 <p align="center">
 <img src="imágenes/Madrid_Rayo.png"  align="center" height="434" width="776">
 </p>
 
 - Por último, no olvides cerrar la conexión con la BDD
-
+- 
 ```R 
 coleccion$disconnect() 
 ```
+Aunque no es obligatoria desconectarte de la base de datos es una buena practica debido a que permites que otra persona pueda conectarse, si eres la unica persona que 
+la utiliza no tiene mucho sentido pero exixten bases de datos a las cuales se conectan millones de usuarios y es aqui donde es de mucha importancia desconectarte al
+finalizar tu trabajo.
+
 
 # Postwork 8
 
