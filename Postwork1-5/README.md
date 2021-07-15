@@ -143,7 +143,7 @@ data = union_all(data,df_1920)
 
 # Desarrollo
 
- El desarrollo de este apartado requiere conoce la probabilidad marginal y conjunta de las anotaciones obtenidas como equipo local (FTHG) y como equipo visitante (FTAH). Para ello definimos cada una de ellas, considerando dos subconjuntos de eventos pisibles X e Y (variables aleatorias) en el espacio muestral S, con x ∈ X e y ∈ Y:
+ El desarrollo de este apartado requiere conocer la probabilidad marginal y conjunta de las anotaciones obtenidas como equipo local (FTHG) y como equipo visitante (FTAH). Para ello definimos cada una de ellas, considerando dos subconjuntos de eventos pisibles X e Y (variables aleatorias) en el espacio muestral S, con x ∈ X e y ∈ Y:
 - Probabilidad marginal (p(x)): Este proporciona la probabilidad de un subconjunto de valores (probabilidad de una variable X o Y) sin conocer los valores de otras variables, i.e., P(X) = frecuencia relativa/ Número de muestras.
 - Probabilidad conjunta (p(x,y)): Esta describe cuanta masa de probabilidad se coloca en cada par posible (x,y), i.e., es la probabilidad de ocurrencia de los eventos X e Y (P(X∩Y) = P(X)P(Y|X)).
 
@@ -205,7 +205,9 @@ ggplot(conjunto.df,aes(x=FTHG,y=FTAG, fill=Frecuencia)) +
 </p>
 
 ## Observaciones
-Con base en el mapa de calor que resume la probabilidades conjuntas de anotaciones por equipos de casa y visitante, se observa que existe una mayor probabilidad de anotación del equipo que juega como local en comparación con el que juega como visitante. Esto indica que, el jugador local tendra una mayor probabilidad de ganar el partido.
+Con base en el mapa de calor, que resume la probabilidades conjuntas de anotaciones por equipos de casa y visitante, se observa que existe una mayor probabilidad de anotación del equipo que juega como local en comparación con el que juega como visitante. Esto indica que, el jugador local tendra una mayor probabilidad de ganar el partido. Adicionalmente, se aprecia que las anotaciones más frecuentes se encuentra en 1 y 2 para el equipo local, mientras que el equipo visitante presenta una mayor frecuencia en lograr 0 y 1 anotaciones.
+
+
 
 # POSTWORK 4
 
@@ -245,7 +247,7 @@ Dado lo anterior, se prosigue a determinar la independencia entre las variables 
      col = c(brewer.pal(5, "YlOrRd")))
 median(conjunto.df$Cocientes)
 ```
-| Parámetro | Mediana | Media  | Desviacion estandar | max | min |
+| Parámetro | Mediana | Media  | Desviacion estandar | Máximo | Mínimo |
 | :-: | :-:| :-: | :-: | :-:| :-: | 
 | (p(x,y)/(p(x)p(y) | 0.8814433 |0.859511 | 0.9801441 | 4.710744 | 0 |
 
@@ -253,7 +255,7 @@ median(conjunto.df$Cocientes)
 <img src="imagenes/TablaCocientes.png" height="470" width="500">
 </p>
 
-Los valores de la estadística descriptiva mostrados en la tabla previa y la gráfica de barras indica que la muestra presenta una dependencia en las variables X e Y, dado que se encuentran alejados de 1.
+Los valores de la estadística descriptiva mostrados en la tabla previa y la gráfica de barras indican que la muestra presenta una dependencia en las variables X e Y, dado que se encuentran alejados de 1.
 
 ## Punto 2
 
@@ -299,7 +301,7 @@ Los valores estadísticos obtenidos en el punto 1 mostraron inicialmente que, en
 
 # CONCLUSIÓN
 
- Con base en el resultado de la prueba t-student con una hipótesis de dos colas se obtiene un p-value < α:
+Con base en el resultado de la prueba t-student con una hipótesis de dos colas se obtiene un p-value < α:
 ```R 
   p-value < 2.2e-16 < 0.05 = α
 ```
@@ -415,7 +417,7 @@ A continuación se muestra la tabla de clasificación con base en los partidos d
 
 - Estima las probabilidades de los eventos, el equipo de casa gana, el equipo visitante gana o el resultado es un empate para los partidos que se jugaron en la última fecha del vector de fechas "fecha". En la siguiente tabla se muestran dichas predicciones de probabilidad de los partidos celebrados el 19/07/2020.
 
-|Fecha | Partido | Victoria local | Victoria visitante | Empate | Prediccion de Marcador | Marcador real
+|Fecha | Partido | Victoria local | Victoria visitante | Empate | Prediccion de Marcador | Marcador real|
 |:-: | :-: | :-: | :-: | :-: | :-: | :-: |
 19/07/2020 | Alaves vs Barcelona | 9% | 76% | 15% | 0.7-2.5 |  (0-5)
 19/07/2020 | Valladolid vs Betis | 29% | 43% | 28% | 1-1.3 |  (2-0)
@@ -427,3 +429,7 @@ A continuación se muestra la tabla de clasificación con base en los partidos d
 19/07/2020 | Levante vs Getafe | 25% | 48% | 27% | 0.9-1.4 |  (1-0)
 19/07/2020 | Osasuna vs Mallorca | 48% | 28% | 25% | 1.6-1.1 | (2-2)
 19/07/2020 | Sevilla vs Valencia | 34% | 40% | 26% | 1.2-1.4 |  (1-0)
+
+## Observaciones
+
+Los resultados obtenidos en la tabla del punto 3, muestran la fuerza de ataque y defensa de los equipos de futbol soccer de la liga española, así como el total de su rendimiento en los partidos jugados previos a la última fecha registrada en la muestra. Estos indicadores se utilizan para predecir la probabilidad (en porcentaje) de un equipo para ganar, perder o empatar en un partido de futbol. Para mostrar esto, en el punto 4 se muestra una tabla en donde se predicen la probabilidades de resultados en ciertos partidos para la última fecha de partidos, y se compara con el marcador real obtenido. La comparación muestra un 40% de acierto en las predicciones. Este comportamiento se atribuye a que no se ha introducido el factor de jugador como equipo local o visitante, ya que, como se mostro en apartados previos, esto influye en los resultados que se obtienen. Por lo tanto, se requiere tomar diferentes factores en los partidos de futbol para determinar predecir de manera más precisa el los resultados en los marcadores.
